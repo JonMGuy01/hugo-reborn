@@ -6,7 +6,7 @@ export async function onRequest(context) {
 
     // The URL that GitHub will redirect back to after successful authorization.
     // This MUST exactly match the "Authorization callback URL" configured in your GitHub OAuth App.
-    const REDIRECT_URI = `${siteUrl}/api/callback`; // <--- IMPORTANT: Changed to /api/callback
+    const REDIRECT_URI = `${siteUrl}/functions/api/callback`; // <--- IMPORTANT: This must be /functions/api/callback
 
     const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&scope=repo&redirect_uri=${REDIRECT_URI}`;
 

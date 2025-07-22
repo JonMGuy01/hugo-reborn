@@ -8,7 +8,7 @@ export async function onRequest(context) {
     const state = url.searchParams.get('state');
 
     const siteUrl = context.env.CF_PAGES_URL || `https://${context.env.CF_PAGES_BRANCH}.${context.env.CF_PAGES_PROJECT_NAME}.pages.dev`;
-    const REDIRECT_URI = `${siteUrl}/api/callback`; // <--- IMPORTANT: Changed to /api/callback
+    const REDIRECT_URI = `${siteUrl}/functions/api/callback`; // <--- IMPORTANT: This must be /functions/api/callback
 
     if (!code) {
         return new Response('OAuth Callback: No authorization code received. This usually means the GitHub login was cancelled or failed.', { status: 400 });

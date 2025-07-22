@@ -2,71 +2,39 @@ backend:
   name: github
   repo: JonMGuy01/hugo-reborn
   branch: master
-  base_url: https://theguys.online/
-  auth_endpoint: functions/api/auth 
+  base_url: https://theguys.online/ # Your custom domain
+  auth_endpoint: functions/api/auth # <--- IMPORTANT: This must be functions/api/auth
 
-# --- REQUIRED PROPERTIES FOR DECAP CMS ---
+media_folder: "static/uploads"
+public_folder: "/uploads"
+media_library:
+  name: "external_git"
 
-# media_folder: This is the path to the folder where uploaded media files (images, etc.) will be stored
-# relative to the root of your Git repository.
-media_folder: "static/uploads" # Recommended for Hugo, stores uploads in static/uploads
-
-# public_folder: This is the URL path where the uploaded media files can be accessed
-# relative to your site's base URL.
-public_folder: "/uploads" # Corresponds to the media_folder above
-
-# media_library: This configures the media library. 'uploadcare' is a common one,
-# but for simple Git-based CMS, you often don't need a separate media library,
-# and Decap CMS will use the Git backend for media.
-# If you don't use a specific media library, you might not need this property.
-# However, the error message indicates it's required, so let's add a basic one.
-# For simple Git-based media, you often don't need a specific media_library config
-# if you're just using the default Git backend for uploads.
-# Let's try omitting media_library for a moment and see if it's truly required,
-# or if it's part of a different schema.
-# Let's add it as an empty object for now if it's complaining.
-
-# The error says 'media_library' is required. Let's add it as a placeholder.
-# For a simple GitHub backend, you often don't need a separate media library configuration
-# as it uses the Git backend for media. However, if the schema requires it, add an empty object.
-# Let's try adding it as a simple object if the error persists.
-# For now, let's focus on the other two.
-
-# collections: This is where you define the content types (e.g., blog posts, pages)
-# that Decap CMS will manage. This is the core of your CMS setup.
 collections:
-  - name: "posts" # A unique identifier for this collection
-    label: "Blog Posts" # The label displayed in the CMS UI
-    folder: "content/posts" # The path to your Hugo posts content
-    create: true # Allow users to create new posts
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}" # How the file name will be generated
-    fields: # Define the fields for your blog posts (matches Hugo front matter)
+  - name: "posts"
+    label: "Blog Posts"
+    folder: "content/posts"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Publish Date", name: "date", widget: "datetime" }
       - { label: "Body", name: "body", widget: "markdown" }
       - { label: "Tags", name: "tags", widget: "list", required: false }
       - { label: "Categories", name: "categories", widget: "list", required: false }
-      # Add more fields as needed for your Hugo content (e.g., images, authors)
 
-  - name: "pages" # Another collection for static pages
-    label: "Pages"
-    files: # Use 'files' for single files that are not in a folder structure
-      - file: "content/_index.md" # Example: Your main homepage content
+  - name: "pages"
+    label: "Site Pages"
+    files:
+      - file: "content/_index.md"
         label: "Homepage"
         name: "homepage"
         fields:
           - { label: "Title", name: "title", widget: "string" }
           - { label: "Body", name: "body", widget: "markdown" }
-      - file: "content/about.md" # Example: An about page
-        label: "About Page"
+      - file: "content/about.md"
+        label: "About Us"
         name: "about"
         fields:
           - { label: "Title", name: "title", widget: "string" }
           - { label: "Body", name: "body", widget: "markdown" }
-
-# You might also need a base media_library if the schema explicitly demands it,
-# even if you're just using the Git backend. Let's try adding a minimal one:
-media_library:
-  name: "uploadcare" # A common placeholder, even if not fully configured
-  # config: # You would add uploadcare-specific config here if you were using it
-  #   publicKey: "YOUR_UPLOADCARE_PUBLIC_KEY"
