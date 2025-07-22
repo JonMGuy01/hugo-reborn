@@ -1,32 +1,6 @@
 backend:
   name: github
-  repo: JonMGuy01/theguys.online # Your GitHub repository
-  branch: main # Or your main branch
-  base_url: https://theguys.online/functions/api # Base URL for your Cloudflare Pages Functions
-  auth_endpoint: auth # The path to your auth initiation function relative to base_url 
-
-media_folder: "static/uploads" # Folder where uploaded media will be stored relative to site root
-public_folder: "/uploads" # Public path for accessing uploaded media
-
-collections:
-- name: "posts"
-  label: "Posts"
-  folder: "content/posts"
-  create: true
-  slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-  fields:
-  - { label: "Title", name: "title", widget: "string" }
-  - { label: "Publish Date", name: "date", widget: "datetime" }
-  - { label: "Draft", name: "draft", widget: "boolean", default: true }
-  - { label: "Body", name: "body", widget: "markdown" }
-
-- name: "pages"
-  label: "Pages"
-  files:
-  # For single, non-repeated pages like "About" or "Contact"
-  - label: "About Page"
-    name: "about"
-    file: "content/about.md"
-    fields:
-    - { label: "Title", name: "title", widget: "string" }
-    - { label: "Body", name: "body", widget: "markdown" }
+  repo: JonMGuy01/hugo-reborn
+  branch: master
+  base_url: https://theguys.online/
+  auth_endpoint: functions/api/auth 

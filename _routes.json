@@ -1,10 +1,11 @@
 {
     "version": 1,
     "include": [
-        "/*"
-    ],
-    "exclude": [
+        "/functions/api/*"
+    ],  <-- IMPORTANT: This matches the URL Decap CMS is generating
+  "exclude": [
         "/admin/*",
-        "/public/*"
+        "/public/*",
+        "/"
     ]
 }
