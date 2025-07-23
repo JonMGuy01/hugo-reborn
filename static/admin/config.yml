@@ -4,16 +4,15 @@ backend:
   name: github
   repo: JonMGuy01/hugo-reborn
   branch: master
-  base_url: https://theguys.online/ # Your custom domain
-  auth_endpoint: api/auth # <--- IMPORTANT: This tells Decap CMS to use /api/auth
+  base_url: https://theguys.online/
+  auth_endpoint: api/auth
 
 media_folder: "static/uploads"
 public_folder: "/uploads"
-media_library:
-  name: "external_git" # Or remove if it causes issues, but keep for now
+# The 'media_library' block should NOT be here.
+# It should look like this, with 'collections' immediately following 'public_folder'.
 
 collections:
-  # ... (your existing collections configuration) ...
   - name: "posts"
     label: "Blog Posts"
     folder: "content/posts"
