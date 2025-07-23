@@ -1,16 +1,15 @@
 // functions/api/callback.js
 
 export async function onRequest(context) {
-    console.log("Callback function started (DEBUG MODE)."); // Keep debug logs for now
+    console.log("Callback function started (DEBUG MODE).");
     const GITHUB_CLIENT_ID = context.env.GITHUB_CLIENT_ID;
     const GITHUB_CLIENT_SECRET = context.env.GITHUB_CLIENT_SECRET;
     const url = new URL(context.request.url);
     const code = url.searchParams.get('code');
     const state = url.searchParams.get('state');
 
-    // const siteUrl = context.env.CF_PAGES_URL || `https://${context.env.CF_PAGES_BRANCH}.${context.env.CF_PAGES_PROJECT_NAME}.pages.dev`; // <-- Comment out or remove this line
-    // IMPORTANT: Hardcode your custom domain for the redirect_uri
-    const REDIRECT_URI = `https://theguys.online/api/callback`; // <--- Use your actual custom domain here
+    // This REDIRECT_URI is for GitHub's validation, and should be your custom domain
+    const REDIRECT_URI = `https://theguys.online/api/callback`;
 
     console.log(`Callback REDIRECT_URI: ${REDIRECT_URI}`);
     console.log(`Callback Code: ${code}`);
@@ -27,7 +26,7 @@ export async function onRequest(context) {
                 client_id: GITHUB_CLIENT_ID,
                 client_secret: GITHUB_CLIENT_SECRET,
                 code: code,
-                redirect_uri: REDIRECT_URI, // Use the hardcoded REDIRECT_URI
+                redirect_uri: REDIRECT_URI,
                 state: state
             })
         });
@@ -42,28 +41,48 @@ export async function onRequest(context) {
         if (!accessToken) { /* ... */ }
         console.log('Access token successfully retrieved.');
 
-        // IMPORTANT: Ensure siteOrigin for postMessage also uses your custom domain
-        const siteOrigin = `https://theguys.online`; // <--- Use your actual custom domain here
+        // --- IMPORTANT CHANGE HERE ---
+        // This siteOrigin MUST match the origin of the main Decap CMS window.
+        const siteOriginForPostMessage = `https://theguys.online`; // <--- HARDCODE YOUR CUSTOM DOMAIN HERE
 
         const responseHtml = `
-            <!DOCTYPE html><html><head><title>Login Success</title></head><body><script>
-                const siteOrigin = "${siteOrigin}"; // Use the hardcoded siteOrigin
-                console.log('Attempting to postMessage to:', siteOrigin);
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Login Success</title>
+            </head>
+            <body>
+                <script>
+                    // Use the hardcoded siteOriginForPostMessage for the postMessage target
+                    const targetOrigin = "${siteOriginForPostMessage}"; 
+                    console.log('Attempting to postMessage to:', targetOrigin);
 
-                if (window.opener) {
-                    window.opener.postMessage(
-                        { type: 'github', payload: { token: '${accessToken}', provider: 'github' } },
-                        siteOrigin
-                    );
-                    console.log('PostMessage sent. Closing window.');
-                    window.close();
-                } else {
-                    console.log('No window.opener. Displaying fallback.');
-                    document.body.innerHTML = '<h1>Login Successful!</h1><p>You can close this window now.</p>';
-                }
-            </script><p>Logging in...</p></body></html>
+                    if (window.opener) {
+                        window.opener.postMessage(
+                            {
+                                type: 'github',
+                                payload: {
+                                    token: '${accessToken}',
+                                    provider: 'github'
+                                }
+                            },
+                            targetOrigin // Use the hardcoded targetOrigin
+                        );
+                        console.log('PostMessage sent. Closing window.');
+                        window.close();
+                    } else {
+                        console.log('No window.opener. Displaying fallback.');
+                        document.body.innerHTML = '<h1>Login Successful!</h1><p>You can close this window now.</p>';
+                    }
+                </script>
+                <p>Logging in...</p>
+            </body>
+            </html>
         `;
-        return new Response(responseHtml, { headers: { 'Content-Type': 'text/html' } });
+
+        return new Response(responseHtml, {
+            headers: { 'Content-Type': 'text/html' }
+        });
 
     } catch (error) { /* ... */ }
 }
