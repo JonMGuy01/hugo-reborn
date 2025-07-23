@@ -2,15 +2,18 @@
 
 backend:
   name: github
-  repo: JonMGuy01/hugo-reborn
-  branch: master
-  base_url: https://theguys.online/
-  auth_endpoint: api/auth
+  repo: JonMGuy01/hugo-reborn # Your actual repo name and username
+  branch: master # Or 'main' if that's your default branch
+  # REMOVE these two lines:
+  # base_url: https://theguys.online/
+  # auth_endpoint: api/auth
+  # ADD these two lines:
+  auth_type: implicit
+  app_id: Ov23li2bxkZR8lC34iCs # <--- PASTE YOUR GITHUB OAUTH APP CLIENT ID HERE
+  auth_scope: repo # Optional, but good practice if you specified it in your GitHub app setup
 
 media_folder: "static/uploads"
 public_folder: "/uploads"
-# The 'media_library' block should NOT be here.
-# It should look like this, with 'collections' immediately following 'public_folder'.
 
 collections:
   - name: "posts"
@@ -19,10 +22,15 @@ collections:
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
+
       - { label: "Title", name: "title", widget: "string" }
+
       - { label: "Publish Date", name: "date", widget: "datetime" }
+
       - { label: "Body", name: "body", widget: "markdown" }
+
       - { label: "Tags", name: "tags", widget: "list", required: false }
+
       - { label: "Categories", name: "categories", widget: "list", required: false }
 
   - name: "pages"
@@ -32,11 +40,16 @@ collections:
         label: "Homepage"
         name: "homepage"
         fields:
+
           - { label: "Title", name: "title", widget: "string" }
+
           - { label: "Body", name: "body", widget: "markdown" }
+
       - file: "content/about.md"
         label: "About Us"
         name: "about"
         fields:
+
           - { label: "Title", name: "title", widget: "string" }
+
           - { label: "Body", name: "body", widget: "markdown" }
