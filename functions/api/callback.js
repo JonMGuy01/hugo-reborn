@@ -1,7 +1,7 @@
 // functions/api/callback.js
 
 export async function onRequest(context) {
-    console.log("--- NEW DEPLOYMENT: Callback function started (VERSION 6 - minimal JS test) ---"); // <--- UPDATED LOG
+    console.log("--- NEW DEPLOYMENT: Callback function started (VERSION 7 - PostMessage with confirmed origin) ---"); // <--- UPDATED LOG
     console.log("Callback function started (DEBUG MODE).");
     const GITHUB_CLIENT_ID = context.env.GITHUB_CLIENT_ID;
     const GITHUB_CLIENT_SECRET = context.env.GITHUB_CLIENT_SECRET;
@@ -41,45 +41,54 @@ export async function onRequest(context) {
         if (!accessToken) { /* ... */ }
         console.log('Access token successfully retrieved.');
 
-        // --- SIMPLIFIED RESPONSE HTML FOR DEBUGGING ---
+        const siteOriginForPostMessage = `https://theguys.online`; // CONFIRMED CORRECT
+
         const responseHtml = `
             <!DOCTYPE html>
             <html>
             <head>
-                <title>Debug Popup</title>
-                <style>
-                    body { font-family: sans-serif; text-align: center; padding: 20px; background-color: #f0f0f0; }
-                    #status { font-size: 1.5em; margin-bottom: 10px; }
-                    #openerStatus { font-weight: bold; }
-                </style>
+                <title>Login Success</title>
             </head>
             <body>
-                <h1 id="status">Loading Debug Info...</h1>
-                <p id="openerStatus"></p>
-                <p>Check the browser console for details.</p>
-                <button onclick="window.close()">Close Window</button>
-
                 <script>
-                    console.log('Popup script (VERSION 6) executing.');
-                    const statusElement = document.getElementById('status');
-                    const openerStatusElement = document.getElementById('openerStatus');
+                    const targetOrigin = "${siteOriginForPostMessage}"; 
+                    const token = "${accessToken}"; 
+                    const provider = "github"; 
+
+                    console.log('Popup script executing (V7).'); 
+                    console.log('Attempting to postMessage to:', targetOrigin);
+                    console.log('Window opener exists:', !!window.opener); 
 
                     if (window.opener) {
-                        statusElement.textContent = 'Window Opener EXISTS!';
-                        openerStatusElement.textContent = 'Opener URL: ' + window.opener.location.href;
-                        openerStatusElement.style.color = 'green';
-                        console.log('Window opener exists:', true);
-                        console.log('Window opener URL:', window.opener.location.href);
-                        // No postMessage yet, just verifying opener.
+                        try {
+                            window.opener.postMessage(
+                                {
+                                    type: provider,
+                                    payload: {
+                                        token: token,
+                                        provider: provider
+                                    }
+                                },
+                                targetOrigin
+                            );
+                            console.log('PostMessage sent successfully.'); 
+                        } catch (e) {
+                            console.error('PostMessage failed (client-side):', e); 
+                            // Display error if postMessage itself fails (e.g., SecurityError)
+                            document.body.innerHTML = '<h1>Error!</h1><p>Failed to send login message: ' + e.message + '</p>';
+                        }
+                        
+                        // Small delay before closing
+                        setTimeout(() => {
+                            console.log('Closing window after postMessage attempt.'); 
+                            window.close();
+                        }, 500); // 0.5 second delay
                     } else {
-                        statusElement.textContent = 'Window Opener IS NULL!';
-                        openerStatusElement.textContent = 'The main window did not open this popup correctly.';
-                        openerStatusElement.style.color = 'red';
-                        console.log('Window opener exists:', false);
+                        console.log('No window.opener. Displaying fallback.');
+                        document.body.innerHTML = '<h1>Login Successful!</h1><p>You can close this window now.</p>';
                     }
-
-                    // No auto-close, user must click button.
                 </script>
+                <p>Logging in...</p>
             </body>
             </html>
         `;
