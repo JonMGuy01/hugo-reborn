@@ -2,17 +2,20 @@
 
 backend:
   name: github
-  repo: JonMGuy01/hugo-reborn
-  branch: master
+  repo: JonMGuy01/hugo-reborn # IMPORTANT: Verify this is your exact GitHub repo
+  branch: master # IMPORTANT: Verify this is your exact default branch (e.g., 'main' or 'master')
   auth_type: implicit
-  app_id: Ov23li2bxkZR8lC34iCs # <--- VERIFY THIS IS CORRECT
-  auth_scope: repo 
+  app_id: Ov23li2bxkZR8lC34iCs # <--- PASTE YOUR GITHUB OAUTH APP CLIENT ID HERE
+  auth_scope: repo # Optional, but recommended if you specified it in GitHub
+                  # DO NOT include base_url or auth_endpoint for implicit flow
 
 media_folder: "static/uploads"
 public_folder: "/uploads"
 
 collections:
-  # Your recovered collections entries should start here
+  # Your collections entries should be here. If they are still missing,
+  # recover them using 'git checkout <commit-hash> static/admin/config.yml'
+  # or by finding an old version.
   - name: "posts"
     label: "Blog Posts"
     folder: "content/posts"
