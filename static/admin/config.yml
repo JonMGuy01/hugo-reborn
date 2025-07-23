@@ -1,16 +1,19 @@
+# static/admin/config.yml
+
 backend:
   name: github
   repo: JonMGuy01/hugo-reborn
   branch: master
-  base_url: https://theguys.online/
-  auth_endpoint: functions/api/auth
+  base_url: https://theguys.online/ # Your custom domain
+  auth_endpoint: api/auth # <--- IMPORTANT: This tells Decap CMS to use /api/auth
 
 media_folder: "static/uploads"
 public_folder: "/uploads"
-# media_library: # <--- THIS BLOCK IS REMOVED
-#   name: "external_git"
+media_library:
+  name: "external_git" # Or remove if it causes issues, but keep for now
 
 collections:
+  # ... (your existing collections configuration) ...
   - name: "posts"
     label: "Blog Posts"
     folder: "content/posts"

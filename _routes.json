@@ -1,7 +1,7 @@
 {
   "version": 1,
   "include": [
-    "/functions/api/*"
-  ],  <--- IMPORTANT: This must be /functions/api/*
+    "/api/*"
+  ],  <--- IMPORTANT: Include /api/*
   "exclude": ["/admin/*", "/", "/public/*"]
 }
