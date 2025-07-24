@@ -4,9 +4,9 @@ backend:
   name: github
   repo: JonMGuy01/hugo-reborn
   branch: master
-  auth_type: implicit
-  app_id: Ov23li2bxkZR8lC34iCs
-  auth_scope: repo
+  abase_url:https://theguys.online
+  auth_endpoint: /api/auth
+
 
 media_folder: "static/uploads" # Choose one: "static/img" or "static/uploads"
 public_folder: "/uploads"      # Choose one: "/img" or "/uploads"
