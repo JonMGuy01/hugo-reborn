@@ -4,7 +4,7 @@ backend:
   name: github
   repo: JonMGuy01/hugo-reborn
   branch: master
-  abase_url:https://theguys.online
+  base_url:https://theguys.online
   auth_endpoint: /api/auth
 
 
