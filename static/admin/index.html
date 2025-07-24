@@ -14,10 +14,10 @@
     window.CMS_CONFIG = {
       backend: {
         name: 'github',
-        repo: 'JonMGuy01/hugo-reborn', // IMPORTANT: Verify this is your exact GitHub repo
-        branch: 'master', // IMPORTANT: Verify this is your exact default branch (e.g., 'main' or 'master')
+        repo: 'JonMGuy01/hugo-reborn',
+        branch: 'master',
         auth_type: 'implicit',
-        app_id: 'Ov23li2bxkZR8lC34iCs', // <--- PASTE YOUR GITHUB OAUTH APP CLIENT ID HERE
+        app_id: 'Ov23li2bxkZR8lC34iCs', // YOUR GITHUB OAUTH APP CLIENT ID HERE
         auth_scope: 'repo'
       },
       media_folder: "static/uploads",
@@ -63,6 +63,9 @@
         }
       ]
     };
+
+    // Explicitly initialize CMS with the hardcoded config
+    CMS.init({ config: window.CMS_CONFIG });
   </script>
 </body>
 
