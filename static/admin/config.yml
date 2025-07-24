@@ -9,8 +9,19 @@ window.CMS_CONFIG = {
     auth_endpoint: 'https://theguys.online/api/auth' // Point to your Cloudflare Pages Function
   },
   // ... rest of your config ...
+<<<<<<< HEAD
 media_folder: static/img
 public_folder: /img
+=======
+};
+
+CMS.init({ config: window.CMS_CONFIG });
+
+
+media_folder: "static/uploads"
+public_folder: "/uploads"
+
+>>>>>>> 80403b951dbc0c880c39ef30d3efd5746407bbef
 collections:
   - name: 'blog'
     label: 'Blog'

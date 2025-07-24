@@ -1,13 +1,31 @@
-// functions/api/auth.js
-
 export async function onRequest(context) {
-    const GITHUB_CLIENT_ID = context.env.GITHUB_CLIENT_ID;
-    // const siteUrl = context.env.CF_PAGES_URL || `https://${context.env.CF_PAGES_BRANCH}.${context.env.CF_PAGES_PROJECT_NAME}.pages.dev`; // <-- Comment out or remove this line
+    const {
+        request, // same as existing Worker API
+        env, // same as existing Worker API
+        params, // if filename includes [id] or [[path]]
+        waitUntil, // same as ctx.waitUntil in existing Worker API
+        next, // used for middleware or to fetch assets
+        data, // arbitrary space for passing data between middlewares
+    } = context;
 
-    // IMPORTANT: Hardcode your custom domain for the redirect_uri
-    const REDIRECT_URI = `https://theguys.online/api/callback`; // <--- Use your actual custom domain here
+    const client_id = env.GITHUB_CLIENT_ID;
 
-    const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&scope=repo&redirect_uri=${REDIRECT_URI}`;
+    try {
+        const url = new URL(request.url);
+        const redirectUrl = new URL('https://github.com/login/oauth/authorize');
+        redirectUrl.searchParams.set('client_id', client_id);
+        redirectUrl.searchParams.set('redirect_uri', url.origin + '/api/callback');
+        redirectUrl.searchParams.set('scope', 'repo user');
+        redirectUrl.searchParams.set(
+            'state',
+            crypto.getRandomValues(new Uint8Array(12)).join(''),
+        );
+        return Response.redirect(redirectUrl.href, 301);
 
-    return Response.redirect(githubAuthUrl, 302);
+    } catch (error) {
+        console.error(error);
+        return new Response(error.message, {
+            status: 500,
+        });
+    }
 }
