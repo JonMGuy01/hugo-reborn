@@ -1,13 +1,75 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Content Manager</title>
-  </head>
-  <body>
-    <!-- Include the script that builds the page and powers Netlify CMS -->
-    <link rel="stylesheet" href="/admin/dark.css">
-    <script src="https://unpkg.com/decap-cms@3.1.0-beta.5/dist/decap-cms.js"></script>
-  </body>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Content Manager</title>
+</head>
+
+<body>
+  <script src="https://unpkg.com/decap-cms@3.0.2/dist/decap-cms.js"></script>
+
+  <script>
+    window.CMS_CONFIG = {
+      backend: {
+        name: 'github',
+        repo: 'JonMGuy01/hugo-reborn',
+        branch: 'master',
+        auth_type: 'implicit',
+        app_id: 'Ov23li2bxkZR8lC34iCs', // YOUR GITHUB OAUTH APP CLIENT ID HERE
+        auth_scope: 'repo'
+      },
+      media_folder: "static/uploads", // Ensure this matches your config.yml choice
+      public_folder: "/uploads",      // Ensure this matches your config.yml choice
+      collections: [
+        {
+          name: "posts",
+          label: "Blog Posts",
+          folder: "content/posts",
+          create: true,
+          slug: "{{year}}-{{month}}-{{day}}-{{slug}}",
+          editor: {
+            preview: false // Match this with config.yml if you want to use it
+          },
+          fields: [
+            { label: "Title", name: "title", widget: "string" },
+            { label: "Publish Date", name: "date", widget: "datetime" },
+            { label: "Description", name: "description", widget: "string" }, // Match this
+            { label: "Body", name: "body", widget: "markdown" },
+            { label: "Tags", name: "tags", widget: "list", required: false },
+            { label: "Categories", name: "categories", widget: "list", required: false }
+          ]
+        },
+        {
+          name: "pages",
+          label: "Site Pages",
+          files: [
+            {
+              file: "content/_index.md",
+              label: "Homepage",
+              name: "homepage",
+              fields: [
+                { label: "Title", name: "title", widget: "string" },
+                { label: "Body", name: "body", widget: "markdown" }
+              ]
+            },
+            {
+              file: "content/about.md",
+              label: "About Us",
+              name: "about",
+              fields: [
+                { label: "Title", name: "title", widget: "string" },
+                { label: "Body", name: "body", widget: "markdown" }
+              ]
+            }
+          ]
+        }
+      ]
+    };
+
+    CMS.init({ config: window.CMS_CONFIG });
+  </script>
+</body>
+
 </html>

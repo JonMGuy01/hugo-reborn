@@ -1,40 +1,44 @@
-window.CMS_CONFIG = {
-  backend: {
-    name: 'github',
-    repo: 'JonMGuy01/hugo-reborn',
-    branch: 'master',
-    auth_type: 'implicit',
-    app_id: 'Ov23li2bxkZR8lC34iCs', // Your GitHub OAuth App Client ID
-    auth_scope: 'repo',
-    auth_endpoint: 'https://theguys.online/api/auth' // Point to your Cloudflare Pages Function
-  },
-  // ... rest of your config ...
-<<<<<<< HEAD
-media_folder: static/img
-public_folder: /img
-=======
-};
+# static/admin/config.yml
 
-CMS.init({ config: window.CMS_CONFIG });
+backend:
+  name: github
+  repo: JonMGuy01/hugo-reborn
+  branch: master
+  auth_type: implicit
+  app_id: Ov23li2bxkZR8lC34iCs
+  auth_scope: repo
 
+media_folder: "static/uploads" # Choose one: "static/img" or "static/uploads"
+public_folder: "/uploads"      # Choose one: "/img" or "/uploads"
 
-media_folder: "static/uploads"
-public_folder: "/uploads"
-
->>>>>>> 80403b951dbc0c880c39ef30d3efd5746407bbef
 collections:
-  - name: 'blog'
-    label: 'Blog'
-    folder: 'content/blog'
+  - name: "posts"
+    label: "Blog Posts"
+    folder: "content/posts"
     create: true
-    slug: '{{slug}}'
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     editor:
-      preview: false
+      preview: false # Added this based on your conflict output
     fields:
-      - { label: 'Title', name: 'title', widget: 'string' }
-      - { label: 'Publish Date', name: 'date', widget: 'datetime' }
-      - { label: 'Description', name: 'description', widget: 'string' }
-      - { label: 'Body', name: 'body', widget: 'markdown' }
-};
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - { label: "Description", name: "description", widget: "string" } # Added this
+      - { label: "Body", name: "body", widget: "markdown" }
+      - { label: "Tags", name: "tags", widget: "list", required: false }
+      - { label: "Categories", name: "categories", widget: "list", required: false }
 
-CMS.init({ config: window.CMS_CONFIG });
+  - name: "pages"
+    label: "Site Pages"
+    files:
+      - file: "content/_index.md"
+        label: "Homepage"
+        name: "homepage"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Body", name: "body", widget: "markdown" }
+      - file: "content/about.md"
+        label: "About Us"
+        name: "about"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Body", name: "body", widget: "markdown" }
