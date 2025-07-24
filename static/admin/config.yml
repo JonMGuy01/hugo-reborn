@@ -1,13 +1,18 @@
-# static/admin/config.yml
+window.CMS_CONFIG = {
+  backend: {
+    name: 'github',
+    repo: 'JonMGuy01/hugo-reborn',
+    branch: 'master',
+    auth_type: 'implicit',
+    app_id: 'Ov23li2bxkZR8lC34iCs', // Your GitHub OAuth App Client ID
+    auth_scope: 'repo',
+    auth_endpoint: 'https://theguys.online/api/auth' // Point to your Cloudflare Pages Function
+  },
+  // ... rest of your config ...
+};
 
-backend:
-  name: github
-  repo: JonMGuy01/hugo-reborn # IMPORTANT: Verify this is your exact GitHub repo
-  branch: master # IMPORTANT: Verify this is your exact default branch (e.g., 'main' or 'master')
-  auth_type: implicit
-  app_id: Ov23li2bxkZR8lC34iCs # <--- PASTE YOUR GITHUB OAUTH APP CLIENT ID HERE
-  auth_scope: repo # Optional, but recommended if you specified it in GitHub
-                  # DO NOT include base_url or auth_endpoint for implicit flow
+CMS.init({ config: window.CMS_CONFIG });
+
 
 media_folder: "static/uploads"
 public_folder: "/uploads"
