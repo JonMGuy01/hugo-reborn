@@ -1,13 +1,12 @@
 ---
-title: "Welcome to Our Site"
-description: "This is the main landing page for our website."
-hero_image: "/images/hero.jpg" # Example custom field
+title: Welcome to The Guys Online
+description: This is the main landing page for our website.
+hero_image: /images/hero.jpg
 ---
 
-This is the content of your homepage. You can write your main welcome message, introduce your site, and add any other information here.
 
 ## Featured Sections
 
-* [About Us](/about)
-* [Our Services](/services)
-* [Contact Us](/contact)
+* [About](/about)
+* [Services](/services)
+* [Contact](/contact)
