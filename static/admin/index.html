@@ -8,67 +8,67 @@
 </head>
 
 <body>
-  <script src="https://unpkg.com/decap-cms@3.0.2/dist/decap-cms.js"></script>
-
   <script>
-    window.CMS_CONFIG = {
-      backend: {
-        name: 'github',
-        repo: 'JonMGuy01/hugo-reborn',
-        branch: 'master',
-        auth_type: 'implicit',
-        app_id: 'Ov23li2bxkZR8lC34iCs', // YOUR GITHUB OAUTH APP CLIENT ID HERE
-        auth_scope: 'repo'
-      },
-      media_folder: "static/uploads", // Ensure this matches your config.yml choice
-      public_folder: "/uploads",      // Ensure this matches your config.yml choice
-      collections: [
-        {
-          name: "posts",
-          label: "Blog Posts",
-          folder: "content/posts",
-          create: true,
-          slug: "{{year}}-{{month}}-{{day}}-{{slug}}",
-          editor: {
-            preview: false // Match this with config.yml if you want to use it
-          },
-          fields: [
-            { label: "Title", name: "title", widget: "string" },
-            { label: "Publish Date", name: "date", widget: "datetime" },
-            { label: "Description", name: "description", widget: "string" }, // Match this
-            { label: "Body", name: "body", widget: "markdown" },
-            { label: "Tags", name: "tags", widget: "list", required: false },
-            { label: "Categories", name: "categories", widget: "list", required: false }
-          ]
-        },
-        {
-          name: "pages",
-          label: "Site Pages",
-          files: [
-            {
-              file: "content/_index.md",
-              label: "Homepage",
-              name: "homepage",
-              fields: [
-                { label: "Title", name: "title", widget: "string" },
-                { label: "Body", name: "body", widget: "markdown" }
-              ]
-            },
-            {
-              file: "content/about.md",
-              label: "About Us",
-              name: "about",
-              fields: [
-                { label: "Title", name: "title", widget: "string" },
-                { label: "Body", name: "body", widget: "markdown" }
-              ]
-            }
-          ]
-        }
-      ]
-    };
+    <script src="https://unpkg.com/decap-cms@3.0.2/dist/decap-cms.js"></script>
+  <script src="https://sharadcodes.github.io/hugo-shortcodes-netlify-cms/dist/hugo_shortcodes_netlify_cms.js"></script>
+  window.CMS_CONFIG = {
+  backend: {
+  name: 'github',
+  repo: 'JonMGuy01/hugo-reborn',
+  branch: 'master',
+  auth_type: 'implicit',
+  app_id: 'Ov23li2bxkZR8lC34iCs', // YOUR GITHUB OAUTH APP CLIENT ID HERE
+  auth_scope: 'repo'
+  },
+  media_folder: "static/uploads", // Ensure this matches your config.yml choice
+  public_folder: "/uploads", // Ensure this matches your config.yml choice
+  collections: [
+  {
+  name: "posts",
+  label: "Blog Posts",
+  folder: "content/posts",
+  create: true,
+  slug: "{{year}}-{{month}}-{{day}}-{{slug}}",
+  editor: {
+  preview: false // Match this with config.yml if you want to use it
+  },
+  fields: [
+  { label: "Title", name: "title", widget: "string" },
+  { label: "Publish Date", name: "date", widget: "datetime" },
+  { label: "Description", name: "description", widget: "string" }, // Match this
+  { label: "Body", name: "body", widget: "markdown" },
+  { label: "Tags", name: "tags", widget: "list", required: false },
+  { label: "Categories", name: "categories", widget: "list", required: false }
+  ]
+  },
+  {
+  name: "pages",
+  label: "Site Pages",
+  files: [
+  {
+  file: "content/_index.md",
+  label: "Homepage",
+  name: "homepage",
+  fields: [
+  { label: "Title", name: "title", widget: "string" },
+  { label: "Body", name: "body", widget: "markdown" }
+  ]
+  },
+  {
+  file: "content/about.md",
+  label: "About Us",
+  name: "about",
+  fields: [
+  { label: "Title", name: "title", widget: "string" },
+  { label: "Body", name: "body", widget: "markdown" }
+  ]
+  }
+  ]
+  }
+  ]
+  };
 
-    CMS.init({ config: window.CMS_CONFIG });
+  CMS.init({ config: window.CMS_CONFIG });
   </script>
 </body>
 
