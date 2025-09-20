@@ -1,0 +1,22 @@
+version: "3"
+# Instructions: https://www.wundertech.net/how-to-set-up-pi-hole-and-unbound-on-docker/
+services:
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "80:80/tcp"
+    network_mode: host
+    environment:
+      TZ: 'Europe/London'
+      WEBPASSWORD: 'password'
+      DNSMASQ_LISTENING: local
+      PIHOLE_DNS_: 172.16.1.150:5053
+    # Volumes store your data between container upgrades
+    volumes:
+      - './pihole:/etc/pihole'
+      - './dnsmasq.d:/etc/dnsmasq.d'
+    restart: unless-stopped
+ 
